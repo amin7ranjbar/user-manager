@@ -3,3 +3,4 @@
 /build
 /logs
 package-lock.json
+/postgres-data
