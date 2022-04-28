@@ -10,7 +10,17 @@ export const registerUserJoi = async (
     const schema = Joi.object({
       body: Joi.object({
         name: Joi.string().required(),
-        role: Joi.string().required().valid("superAdmin", "admin", "user"),
+        age: Joi.number().required().max(80),
+        mobile: Joi.string().required(),
+        password: Joi.string()
+          .min(8)
+          .regex(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])/)
+          .required()
+          .messages({
+            "string.pattern.base":
+              "password should contains at least a number,an Uppercase alphabet and Lowercase alphabet",
+          }),
+        rePassword: Joi.string().valid(Joi.ref("password")).required(),
       }),
       params: Joi.object({}),
       query: Joi.object({}),
@@ -34,8 +44,15 @@ export const loginUserJoi = async (
   try {
     const schema = Joi.object({
       body: Joi.object({
-        name: Joi.string().required(),
-        role: Joi.string().required().valid("superAdmin", "admin", "user"),
+        mobile: Joi.string().required(),
+        password: Joi.string()
+          .min(8)
+          .regex(/(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])/)
+          .required()
+          .messages({
+            "string.pattern.base":
+              "password should contains at least a number,an Uppercase alphabet and Lowercase alphabet",
+          }),
       }),
       params: Joi.object({}),
       query: Joi.object({}),
